@@ -15,8 +15,11 @@ const category  = [
 const quoteDisplay = document.getElementById('quoteDisplay')
 const newQuote = document.getElementById('newQuote')
 
-newQuote.addEventListener('click', function(){
+
+function showRandomQuote(){
     const randomInt = Math.floor(Math.random() * 9) + 1;
-    quoteDisplay.textContent = category[randomInt]
-})
+    quoteDisplay.innerHTML = `${category[randomInt]}`
+}
+
+newQuote.addEventListener('click', showRandomQuote)
 
