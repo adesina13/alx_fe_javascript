@@ -40,7 +40,6 @@ createAddQuoteForm.innerHTML = `<div>
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button onclick="addQuote()">Add Quote</button>
 </div>
-<button>Export Quotes</button>
 <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />`
 
 document.querySelector('body').appendChild(createAddQuoteForm)
