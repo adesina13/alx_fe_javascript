@@ -74,7 +74,7 @@ async function addQuote() {
     if (response.ok) {
       const result = await response.json();
       console.log("Quote sent to server (mock):", result);
-      notifyUser("Quote also sent to server.");
+      notifyUser("Quotes synced with server!");
     } else {
       throw new Error("Server did not accept the quote");
     }
