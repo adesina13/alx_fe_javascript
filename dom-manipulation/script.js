@@ -101,9 +101,9 @@ function importFromJsonFile(event) {
 
 // Populate dropdown from categories
 function populateCategories() {
-  const uniqueCategories = [...new Set(storedAwoQuote.map(q => q.category))];
+  const selectedCategory = [...new Set(storedAwoQuote.map(q => q.category))];
   categoryFilter.innerHTML = `<option value="all">All Categories</option>`;
-  uniqueCategories.forEach(cat => {
+  selectedCategory.forEach(cat => {
     const option = document.createElement('option');
     option.value = cat;
     option.textContent = cat;
