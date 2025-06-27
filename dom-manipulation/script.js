@@ -24,19 +24,25 @@ function showRandomQuote(){
 
 newQuote.addEventListener('click', showRandomQuote)
 
-const newQuoteText = document.getElementById('newQuoteText')
-const newQuoteCategory = document.getElementById('newQuoteCategory')
+
+const createAddQuoteForm = document.createElement('div')
+createAddQuoteForm.innerHTML = `<div>
+    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
+    <button onclick="addQuote()">Add Quote</button>
+</div>`
+
+document.querySelector('body').appendChild(createAddQuoteForm)
+
 
 function addQuote(){
-    if (newQuoteText.value.trim() !== "" && newQuoteCategory.value.trim() !== "" ){
-        const createAddQuoteForm = {
-            "category": newQuoteCategory.value,
-            "text": newQuoteText.value
-        }
-        AwoQuote.push(createAddQuoteForm)
-        newQuoteText.value = ""
-        newQuoteCategory.value = ""
-    }else{
-        alert("Fill the fields")
-    }
+    const newQuoteText = document.getElementById('newQuoteText')
+    const newQuoteCategory = document.getElementById('newQuoteCategory')
+    AwoQuote.push({
+        "category": newQuoteCategory.value,
+        "text": newQuoteText.value
+    })
+    newQuoteText.value = ""
+    newQuoteCategory.value = ""
+   
 }
