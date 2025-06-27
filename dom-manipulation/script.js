@@ -1,5 +1,5 @@
 
-const AwoQuotes  = [
+const category  = [
     "It is not life that matters, but the courage you bring into it.",
     "Nigeria is not a nation. It is a mere geographical expression.",
     "Violence never settles anything right. Apart from injuring your opponent, it also hurts you.",
@@ -17,6 +17,6 @@ const newQuote = document.getElementById('newQuote')
 
 newQuote.addEventListener('click', function(){
     const randomInt = Math.floor(Math.random() * 9) + 1;
-    quoteDisplay.textContent = AwoQuotes[randomInt]
+    quoteDisplay.textContent = category[randomInt]
 })
 
