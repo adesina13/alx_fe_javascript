@@ -8,38 +8,7 @@ const AwoQuote = [
         category: "Nationhood",
         text: "Nigeria is not a nation. It is a mere geographical expression."
     },
-    {
-        category: "Peace",
-        text: "Violence never settles anything right. Apart from injuring your opponent, it also hurts you."
-    },
-    {
-        category: "Education",
-        text: "Any system of education which does not help a man to have a healthy and sound body, alert brain, and active mind is a false education."
-    },
-    {
-        category: "Social Justice",
-        text: "The children of the poor you fail to train today will never let your children have peace."
-    },
-    {
-        category: "Patriotism",
-        text: "I have never regarded myself as a tribalist; I am a nationalist of the highest order."
-    },
-    {
-        category: "Freedom",
-        text: "The black man shall be free, and in his freedom, he shall demonstrate the superiority of the mind over brute force."
-    },
-    {
-        category: "Justice",
-        text: "The worst form of injustice is pretended justice."
-    },
-    {
-        category: "Politics",
-        text: "Politics should be an avenue of service to the people and not an opportunity to make money."
-    },
-    {
-        category: "Leadership",
-        text: "The strong, the just, the selfless, the fearless, and the politically sagacious will always lead."
-    }
+    
 ];
 
 
@@ -48,9 +17,25 @@ const newQuote = document.getElementById('newQuote')
 
 
 function showRandomQuote(){
-    const randomInt = Math.floor(Math.random() * 9) + 1;
+    const randomInt = Math.floor(Math.random() * (AwoQuote.length ));
     quoteDisplay.innerHTML = `${AwoQuote[randomInt]["text"]}`
+    console.log(randomInt)
 }
 
 newQuote.addEventListener('click', showRandomQuote)
 
+const newQuoteText = document.getElementById('newQuoteText')
+const newQuoteCategory = document.getElementById('newQuoteCategory')
+
+function addQuote(){
+    if (newQuoteText.value.trim() !== "" && newQuoteCategory.value.trim() !== "" ){
+        AwoQuote.push({
+            "category": newQuoteCategory.value,
+            "text": newQuoteText.value
+        })
+        newQuoteText.value = ""
+        newQuoteCategory.value = ""
+    }else{
+        alert("Fill the fields")
+    }
+}
