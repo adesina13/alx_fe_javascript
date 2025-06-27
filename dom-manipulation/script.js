@@ -1,29 +1,29 @@
 
-const AwoQuote = [
-    {
-        category: "Life",
-        text: "It is not life that matters, but the courage you bring into it."
-    },
-    {
-        category: "Nationhood",
-        text: "Nigeria is not a nation. It is a mere geographical expression."
-    },
-    
-];
 
 
-const quoteDisplay = document.getElementById('quoteDisplay')
-const newQuote = document.getElementById('newQuote')
+const awo = localStorage.getItem('quote')
+let storedAwoQuote = JSON.parse(awo)
 
 
-function showRandomQuote(){
-    const randomInt = Math.floor(Math.random() * (AwoQuote.length ));
-    quoteDisplay.innerHTML = `<div>Category: ${AwoQuote[randomInt]["category"]}</div>
-                            <div>Text: ${AwoQuote[randomInt]["text"]}</div>`
-    console.log(randomInt)
-}
 
-newQuote.addEventListener('click', showRandomQuote)
+    const quoteDisplay = document.getElementById('quoteDisplay')
+    const newQuote = document.getElementById('newQuote')
+
+
+    function showRandomQuote(){
+        if (storedAwoQuote !== null){
+        const randomInt = Math.floor(Math.random() * (storedAwoQuote.length ));
+        quoteDisplay.innerHTML = `<div>Category: ${storedAwoQuote[randomInt]["category"]}</div>
+                                <div>Text: ${storedAwoQuote[randomInt]["text"]}</div>`
+        
+        }else{
+            alert("No Stored Quote")
+        }
+    }
+
+    newQuote.addEventListener('click', showRandomQuote)
+
+
 
 
 const createAddQuoteForm = document.createElement('div')
@@ -39,11 +39,25 @@ document.querySelector('body').appendChild(createAddQuoteForm)
 function addQuote(){
     const newQuoteText = document.getElementById('newQuoteText')
     const newQuoteCategory = document.getElementById('newQuoteCategory')
-    AwoQuote.push({
-        "category": newQuoteCategory.value,
-        "text": newQuoteText.value
-    })
-    newQuoteText.value = ""
-    newQuoteCategory.value = ""
-   
+    
+    if (newQuoteCategory.value.trim() !== "" && newQuoteText.value.trim() !== ""){
+        if (storedAwoQuote !== null){
+            storedAwoQuote.push({
+                "category": newQuoteCategory.value,
+                "text": newQuoteText.value
+            })
+        }else{
+            storedAwoQuote = [
+                {
+                "category": newQuoteCategory.value,
+                "text": newQuoteText.value
+            }
+            ]
+        }
+        localStorage.setItem('quote', JSON.stringify(storedAwoQuote))
+        newQuoteText.value = ""
+        newQuoteCategory.value = ""
+    }else{
+        alert("Fill the fields")
+    }
 }
