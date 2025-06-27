@@ -29,10 +29,11 @@ const newQuoteCategory = document.getElementById('newQuoteCategory')
 
 function addQuote(){
     if (newQuoteText.value.trim() !== "" && newQuoteCategory.value.trim() !== "" ){
-        AwoQuote.push({
+        const createAddQuoteForm = {
             "category": newQuoteCategory.value,
             "text": newQuoteText.value
-        })
+        }
+        AwoQuote.push(createAddQuoteForm)
         newQuoteText.value = ""
         newQuoteCategory.value = ""
     }else{
