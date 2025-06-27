@@ -18,7 +18,8 @@ const newQuote = document.getElementById('newQuote')
 
 function showRandomQuote(){
     const randomInt = Math.floor(Math.random() * (AwoQuote.length ));
-    quoteDisplay.innerHTML = `${AwoQuote[randomInt]["text"]}`
+    quoteDisplay.innerHTML = `<div>Category: ${AwoQuote[randomInt]["category"]}</div>
+                            <div>Text: ${AwoQuote[randomInt]["text"]}</div>`
     console.log(randomInt)
 }
 
