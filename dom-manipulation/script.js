@@ -33,7 +33,7 @@ if (recent) {
 newQuoteBtn.addEventListener('click', showRandomQuote);
 
 // Add new quote
-function addQuote() {
+async function addQuote() {
   const newQuoteText = document.getElementById('newQuoteText');
   const newQuoteCategory = document.getElementById('newQuoteCategory');
 
@@ -52,15 +52,38 @@ function addQuote() {
     updatedAt: new Date().toISOString()
   };
 
+  // Add to local storage
   storedAwoQuote.push(newQuote);
   localStorage.setItem('quote', JSON.stringify(storedAwoQuote));
+  populateCategories();
+  notifyUser("Quote added locally.");
 
   newQuoteText.value = "";
   newQuoteCategory.value = "";
 
-  populateCategories();
-  notifyUser("Quote added.");
+  // Simulated POST to server
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newQuote)
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("Quote sent to server (mock):", result);
+      notifyUser("Quote also sent to server.");
+    } else {
+      throw new Error("Server did not accept the quote");
+    }
+  } catch (err) {
+    console.error("Failed to post quote to server:", err);
+    notifyUser("Failed to sync quote to server.");
+  }
 }
+
 
 // Export quotes to JSON
 exportBtn.addEventListener('click', () => {
