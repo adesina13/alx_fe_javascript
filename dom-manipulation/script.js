@@ -142,9 +142,9 @@ function notifyUser(message) {
 async function syncWithServer() {
   try {
     const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-    const serverQuotes = await res.json();
+    const fetchQuotesFromServer = await res.json();
 
-    const formatted = serverQuotes.slice(0, 5).map(post => ({
+    const formatted = fetchQuotesFromServer.slice(0, 5).map(post => ({
       id: post.id,
       category: "Server Category",
       text: post.body,
