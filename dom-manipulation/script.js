@@ -5,17 +5,17 @@ const categoryFilter = document.getElementById('categoryFilter');
 const notification = document.getElementById('notification');
 
 // Load stored quotes
-let storedAwoQuote = JSON.parse(localStorage.getItem('quote')) || [];
+let syncQuotes = JSON.parse(localStorage.getItem('quote')) || [];
 
 // Show random quote
 function showRandomQuote() {
-  if (storedAwoQuote.length === 0) {
+  if (syncQuotes.length === 0) {
     alert("No Stored Quotes");
     return;
   }
 
-  const randomIndex = Math.floor(Math.random() * storedAwoQuote.length);
-  const quote = storedAwoQuote[randomIndex];
+  const randomIndex = Math.floor(Math.random() * syncQuotes.length);
+  const quote = syncQuotes[randomIndex];
 
   quoteDisplay.innerHTML = `<div>Category: ${quote.category}</div><div>Text: ${quote.text}</div>`;
 
@@ -53,8 +53,8 @@ async function addQuote() {
   };
 
   // Add to local storage
-  storedAwoQuote.push(newQuote);
-  localStorage.setItem('quote', JSON.stringify(storedAwoQuote));
+  syncQuotes.push(newQuote);
+  localStorage.setItem('quote', JSON.stringify(syncQuotes));
   populateCategories();
   notifyUser("Quote added locally.");
 
@@ -87,7 +87,7 @@ async function addQuote() {
 
 // Export quotes to JSON
 exportBtn.addEventListener('click', () => {
-  const jsonData = JSON.stringify(storedAwoQuote, null, 2);
+  const jsonData = JSON.stringify(syncQuotes, null, 2);
   const blob = new Blob([jsonData], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -109,10 +109,10 @@ function importFromJsonFile(event) {
         if (!q.text || !q.category) return;
         q.id = q.id || Date.now();
         q.updatedAt = q.updatedAt || new Date().toISOString();
-        storedAwoQuote.push(q);
+        syncQuotes.push(q);
       });
 
-      localStorage.setItem('quote', JSON.stringify(storedAwoQuote));
+      localStorage.setItem('quote', JSON.stringify(syncQuotes));
       populateCategories();
       notifyUser("Quotes imported successfully!");
     } catch (e) {
@@ -124,7 +124,7 @@ function importFromJsonFile(event) {
 
 // Populate dropdown from categories
 function populateCategories() {
-  const selectedCategory = [...new Set(storedAwoQuote.map(q => q.category))];
+  const selectedCategory = [...new Set(syncQuotes.map(q => q.category))];
   categoryFilter.innerHTML = `<option value="all">All Categories</option>`;
   selectedCategory.forEach(cat => {
     const option = document.createElement('option');
@@ -146,8 +146,8 @@ function filterQuotes() {
   localStorage.setItem('lastSelectedCategory', selected);
 
   const filtered = selected === 'all'
-    ? storedAwoQuote
-    : storedAwoQuote.filter(q => q.category === selected);
+    ? syncQuotes
+    : syncQuotes.filter(q => q.category === selected);
 
   quoteDisplay.innerHTML = filtered.map(q =>
     `<div><strong>${q.category}</strong>: ${q.text}</div>`
@@ -175,15 +175,15 @@ async function syncWithServer() {
     }));
 
     formatted.forEach(serverQuote => {
-      const index = storedAwoQuote.findIndex(q => q.id === serverQuote.id);
+      const index = syncQuotes.findIndex(q => q.id === serverQuote.id);
       if (index >= 0) {
-        storedAwoQuote[index] = serverQuote;
+        syncQuotes[index] = serverQuote;
       } else {
-        storedAwoQuote.push(serverQuote);
+        syncQuotes.push(serverQuote);
       }
     });
 
-    localStorage.setItem('quote', JSON.stringify(storedAwoQuote));
+    localStorage.setItem('quote', JSON.stringify(syncQuotes));
     populateCategories();
     notifyUser("Synced with server.");
   } catch (err) {
